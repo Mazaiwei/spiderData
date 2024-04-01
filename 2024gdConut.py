@@ -8,6 +8,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 url = 'https://ggfw.hrss.gd.gov.cn/sydwbk/exam/details/spQuery.do'
 
 allDatas = []
+print('程序开始执行！')
 for index in range(21):
     if index+1>9:
         num = f'{index+1}'
@@ -45,7 +46,7 @@ for index in range(21):
         datas = resp.json()['rows']
         for index in datas:
             allDatas.append(index)
-        print('添加一页数据进入数组，请等待数据录入Excel。程序运行结束显示才算结束，不然可能数据为空白')
+        print('添加一页数据进入列表，请等待数据录入Excel。程序运行结束显示才算结束，不然可能数据为空白')
         time.sleep(2)
 
 wb = xlwt.Workbook()
@@ -59,7 +60,7 @@ for index,data in enumerate(allDatas):
     sheet.write(index + 1, 2, data['bfe301'])
     sheet.write(index + 1, 3, data['aab019'])
     sheet.write(index + 1, 4, data['aab119'])
-    if index+1 / 50 == 0:
+    if index+1 % 50 == 0:
         print('准备录入新的一页数据')
 
 wb.save('广东省事业编报名人数统计.xls')
